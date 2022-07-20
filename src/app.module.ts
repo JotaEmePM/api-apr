@@ -6,7 +6,7 @@ import { UsuarioModule } from './usuario/usuario.module'
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb+srv://jotaemepm:_8xqF4ryPsh35Kv@cluster0.aoefb.mongodb.net/?retryWrites=true&w=majority'),
+    MongooseModule.forRoot('mongodb+srv://jotaemepm:_8xqF4ryPsh35Kv@cluster0.aoefb.mongodb.net/apr?retryWrites=true&w=majority'),
     UsuarioModule
   ],
   controllers: [AppController],
