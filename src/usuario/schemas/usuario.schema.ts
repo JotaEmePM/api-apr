@@ -13,6 +13,20 @@ export class Usuario {
 
   @Prop()
   breed: string
+
+  @Prop()
+  passwordHistory: PasswordHistory[]
+
+  @Prop()
+  hola: string[]
+}
+
+export class PasswordHistory {
+  @Prop()
+  password: string
+
+  @Prop()
+  text: string
 }
 
 export const UsuarioSchema = SchemaFactory.createForClass(Usuario)
