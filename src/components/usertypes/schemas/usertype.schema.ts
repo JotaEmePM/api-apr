@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
-import { ArrayMinSize, IsBoolean, IsDate, IsEmail, IsNotEmpty, IsNumber, isString, MinLength } from 'class-validator'
+import { IsBoolean, IsNotEmpty, IsNumber, MinLength } from 'class-validator'
 import { Document } from 'mongoose'
 
 export type UsertypeDocument = UserType & Document

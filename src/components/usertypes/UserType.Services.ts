@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
+import { CreateUserTypeDto } from './dto/create-usertype.dto'
 import {
   UserType, UsertypeDocument, UserTypeSchema
 } from './schemas/usertype.schema'
@@ -22,5 +23,10 @@ export class UserTypeService {
 
   async findBy(key: string, value: string): Promise<UserType[]> {
     return this.usertypeModel.where(key).equals(value).exec()
+  }
+
+  async create(createUserTypeDto: CreateUserTypeDto): Promise<UserType> {
+    const createdUserType = await this.usertypeModel.create(createUserTypeDto)
+    return createdUserType
   }
 }
