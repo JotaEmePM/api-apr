@@ -33,6 +33,20 @@ export class UsuariosController {
         createUserDto.Email
       ) !== null ? true: false
       console.log('email', existeEmail)
+
+      var existeUserName = await this.usuarioService.findBy(
+        'Username',
+        createUserDto.Username
+      ) !== null ? true: false
+      console.log('Username', existeUserName)
+
+      var existeRut = await this.usuarioService.findBy(
+        'Rut',
+        createUserDto.Rut
+      ) !== null ? true: false
+      console.log('Rut', existeRut)
+
+
       if(existeEmail) {
         const resDto = new ResponseDto()
         resDto.IsError = true
@@ -41,11 +55,7 @@ export class UsuariosController {
       }
 
       //  ValidarNombreUsuario
-      var existeUserName = await this.usuarioService.findBy(
-        'Username',
-        createUserDto.Username
-      ) !== null ? true: false
-      console.log('Username', existeUserName)
+
       if(existeUserName) {
         const resDto = new ResponseDto()
         resDto.IsError = true
@@ -54,11 +64,7 @@ export class UsuariosController {
       }
 
       //  ValidarRut
-      var existeRut = await this.usuarioService.findBy(
-        'Rut',
-        createUserDto.Rut
-      ) !== null ? true: false
-      console.log('Rut', existeRut)
+
       if(existeRut) {
         const resDto = new ResponseDto()
         resDto.IsError = true
