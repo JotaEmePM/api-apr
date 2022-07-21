@@ -32,56 +32,39 @@ export class UsuariosController {
         'Email',
         createUserDto.Email
       )
-        console.log('email:',existeEmail.length)
       var existeUserName = await this.usuarioService.findBy(
         'Username',
         createUserDto.Username
       )
-      console.log('Username:',existeUserName.length)
-      var existeRut = await this.usuarioService.findBy(
-        'Rut',
-        createUserDto.Rut
-      )
-      console.log('Rut:',existeRut.length)
+      var existeRut = await this.usuarioService.findBy('Rut', createUserDto.Rut)
 
-      if(existeEmail.length > 0) {
+      if (existeEmail.length > 0) {
         const resDto = new ResponseDto()
         resDto.IsError = true
-        ;(resDto.Message = 'Email ya se encuentra registrado ')
+        resDto.Message = 'Email ya se encuentra registrado '
         return response.status(HttpStatus.BAD_REQUEST).json(resDto)
-      }
-
-      //  ValidarNombreUsuario
-
-      if(existeUserName.length > 0) {
+      } else if (existeUserName.length > 0) {
         const resDto = new ResponseDto()
         resDto.IsError = true
-        ;(resDto.Message = 'UserName ya se encuentra registrado ')
+        resDto.Message = 'UserName ya se encuentra registrado '
         return response.status(HttpStatus.BAD_REQUEST).json(resDto)
-      }
-
-      //  ValidarRut
-
-      if(existeRut.length > 0) {
+      } else if (existeRut.length > 0) {
         const resDto = new ResponseDto()
         resDto.IsError = true
-        ;(resDto.Message = 'Rut ya se encuentra registrado ')
+        resDto.Message = 'Rut ya se encuentra registrado '
         return response.status(HttpStatus.BAD_REQUEST).json(resDto)
+      } else {
+        // TODO: Validar UserType
+        // TODO: Validar password
+
+        // TODO: Validar permisos usuario creador
+
+        const newUser = await this.usuarioService.create(createUserDto)
+        const resDto = new ResponseDto()
+        resDto.IsError = false
+        ;(resDto.Message = 'Usuario registrado correctamente-'), existeEmail
+        return response.status(HttpStatus.OK).json(resDto)
       }
-
-      // TODO: Validar UserType
-      // TODO: Validar password
-
-
-
-
-      // TODO: Validar permisos usuario creador
-
-      const newUser = await this.usuarioService.create(createUserDto)
-      const resDto = new ResponseDto()
-      resDto.IsError = false
-      ;(resDto.Message = 'Usuario registrado correctamente-'), existeEmail
-      return response.status(HttpStatus.OK).json(resDto)
     } catch (error) {
       const resDto = new ResponseDto()
       resDto.IsError = true

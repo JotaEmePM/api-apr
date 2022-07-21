@@ -16,10 +16,12 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document)
 
   // Validation
-  app.useGlobalPipes(new ValidationPipe({
-    disableErrorMessages: true,
-    transform: true
-  }));
+  app.useGlobalPipes(
+    new ValidationPipe({
+      disableErrorMessages: true,
+      transform: true,
+    })
+  )
 
   await app.listen(process.env.PORT || 8080)
 }
