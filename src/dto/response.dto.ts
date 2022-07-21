@@ -1,8 +1,13 @@
 export class ResponseDto {
-  IsError: boolean = false
-  Message: string = ''
+  // public IsError: boolean = false
+  // public Message: string = ''
+
+  constructor(public IsError: boolean, public Message: string ) {}
 }
 
 export class ResponseValueDto extends ResponseDto {
-  Value: any = null
+  // Value: any = null
+  constructor(public IsError: boolean, public Message: string, public Value: any) {
+    super(IsError, Message);
+  }
 }

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
 import { CreateUsuariosDto } from './dto/create-usuarios.dto'
-import { SecurityService } from '../services/security.services'
+import { SecurityService } from 'src/services/security.services'
 import {
   Usuarios,
   UsuariosDocument,
