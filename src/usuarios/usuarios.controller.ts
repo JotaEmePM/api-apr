@@ -31,10 +31,46 @@ export class UsuariosController {
       var existeEmail = await this.usuarioService.findBy(
         'Email',
         createUserDto.Email
-      )
-      console.log('existeemail:', existeEmail)
+      ) !== null ? true: false
+
+      if(existeEmail) {
+        const resDto = new ResponseDto()
+        resDto.IsError = true
+        ;(resDto.Message = 'Email ya se encuentra registrado ')
+        return response.status(HttpStatus.BAD_REQUEST).json(resDto)
+      }
+
       //  ValidarNombreUsuario
+      var existeUserName = await this.usuarioService.findBy(
+        'Username',
+        createUserDto.Username
+      ) !== null ? true: false
+
+      if(existeUserName) {
+        const resDto = new ResponseDto()
+        resDto.IsError = true
+        ;(resDto.Message = 'UserName ya se encuentra registrado ')
+        return response.status(HttpStatus.BAD_REQUEST).json(resDto)
+      }
+
       //  ValidarRut
+      var existeRut = await this.usuarioService.findBy(
+        'Rut',
+        createUserDto.Rut
+      ) !== null ? true: false
+
+      if(existeRut) {
+        const resDto = new ResponseDto()
+        resDto.IsError = true
+        ;(resDto.Message = 'Rut ya se encuentra registrado ')
+        return response.status(HttpStatus.BAD_REQUEST).json(resDto)
+      }
+
+      // TODO: Validar UserType
+      // TODO: Validar password
+
+
+
 
       // TODO: Validar permisos usuario creador
 
