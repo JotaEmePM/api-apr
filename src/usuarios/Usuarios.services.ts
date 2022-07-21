@@ -18,7 +18,6 @@ export class UsuariosService {
   ) {}
 
   async create(createUsuarioDto: CreateUsuariosDto): Promise<Usuarios> {
-    console.log('sdfsdf')
     const password = new PasswordHistory()
     password.Id = 1
     password.FechaCreacion = new Date()

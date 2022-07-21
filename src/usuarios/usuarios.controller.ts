@@ -32,7 +32,7 @@ export class UsuariosController {
         'Email',
         createUserDto.Email
       )
-      console.log(existeEmail)
+      console.log('existeemail:', existeEmail)
       //  ValidarNombreUsuario
       //  ValidarRut
 
