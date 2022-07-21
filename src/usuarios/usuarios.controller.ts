@@ -32,22 +32,19 @@ export class UsuariosController {
         'Email',
         createUserDto.Email
       )
-      console.log('email', "-", existeEmail.Email,"-" , "-",createUserDto.Email, "-", (existeEmail.Email == createUserDto.Email))
-
+        console.log('email:',existeEmail.length)
       var existeUserName = await this.usuarioService.findBy(
         'Username',
         createUserDto.Username
       )
-      console.log('Username', "-", existeEmail.Username,"-" , "-",createUserDto.Username, "-", (existeEmail.Username == createUserDto.Username))
-
+      console.log('Username:',existeUserName.length)
       var existeRut = await this.usuarioService.findBy(
         'Rut',
         createUserDto.Rut
       )
-      console.log('Rut', "-", existeEmail.Rut,"-" , "-",createUserDto.Rut, "-", (existeEmail.Rut == createUserDto.Rut))
+      console.log('Rut:',existeRut.length)
 
-
-      if(existeEmail) {
+      if(existeEmail.length > 0) {
         const resDto = new ResponseDto()
         resDto.IsError = true
         ;(resDto.Message = 'Email ya se encuentra registrado ')
@@ -56,7 +53,7 @@ export class UsuariosController {
 
       //  ValidarNombreUsuario
 
-      if(existeUserName) {
+      if(existeUserName.length > 0) {
         const resDto = new ResponseDto()
         resDto.IsError = true
         ;(resDto.Message = 'UserName ya se encuentra registrado ')
@@ -65,7 +62,7 @@ export class UsuariosController {
 
       //  ValidarRut
 
-      if(existeRut) {
+      if(existeRut.length > 0) {
         const resDto = new ResponseDto()
         resDto.IsError = true
         ;(resDto.Message = 'Rut ya se encuentra registrado ')
