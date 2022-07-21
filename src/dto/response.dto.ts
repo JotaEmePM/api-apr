@@ -1,8 +1,8 @@
 export class ResponseDto {
-  IsError: boolean
-  Message: string
+  IsError: boolean = false
+  Message: string = ''
 }
 
 export class ResponseValueDto extends ResponseDto {
-  Value: any
+  Value: any = null
 }
