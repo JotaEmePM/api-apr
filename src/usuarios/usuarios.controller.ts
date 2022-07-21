@@ -32,7 +32,7 @@ export class UsuariosController {
         'Email',
         createUserDto.Email
       ) !== null ? true: false
-
+      console.log('email', existeEmail)
       if(existeEmail) {
         const resDto = new ResponseDto()
         resDto.IsError = true
@@ -45,7 +45,7 @@ export class UsuariosController {
         'Username',
         createUserDto.Username
       ) !== null ? true: false
-
+      console.log('Username', existeUserName)
       if(existeUserName) {
         const resDto = new ResponseDto()
         resDto.IsError = true
@@ -58,7 +58,7 @@ export class UsuariosController {
         'Rut',
         createUserDto.Rut
       ) !== null ? true: false
-
+      console.log('Rut', existeRut)
       if(existeRut) {
         const resDto = new ResponseDto()
         resDto.IsError = true
