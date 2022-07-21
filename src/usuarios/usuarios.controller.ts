@@ -28,14 +28,8 @@ export class UsuariosController {
 
       // Validar existencia de usuario
       //  ValidarEmail
-      var existeEmail = await this.usuarioService.findBy(
-        'Email',
-        createUserDto.Email
-      )
-      var existeUserName = await this.usuarioService.findBy(
-        'Username',
-        createUserDto.Username
-      )
+      var existeEmail = await this.usuarioService.findBy('Email', createUserDto.Email)
+      var existeUserName = await this.usuarioService.findBy('Username', createUserDto.Username)
       var existeRut = await this.usuarioService.findBy('Rut', createUserDto.Rut)
 
       if (existeEmail.length > 0) {

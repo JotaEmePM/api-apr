@@ -57,7 +57,7 @@ export class UsuariosService {
   }
 
   async findBy(key: string, value: string): Promise<Usuarios[]> {
-    return this.usuariosModel.where({ key: value }).exec()
+    return this.usuariosModel.where(key).equals(value).exec()
   }
 
   async delete(id: string) {
