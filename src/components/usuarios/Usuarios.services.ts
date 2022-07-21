@@ -60,6 +60,10 @@ export class UsuariosService {
     return this.usuariosModel.where(key).equals(value).exec()
   }
 
+  async findOneBy(key: string, value: string): Promise<Usuarios> {
+    return this.usuariosModel.where(key).equals(value).findOne()
+  }
+
   async delete(id: string) {
     const deletedUsuario = await this.usuariosModel
       .findByIdAndRemove({ _id: id })
