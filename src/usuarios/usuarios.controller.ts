@@ -31,20 +31,20 @@ export class UsuariosController {
       var existeEmail = await this.usuarioService.findBy(
         'Email',
         createUserDto.Email
-      ) !== null ? true: false
-      console.log('email', existeEmail)
+      )
+      console.log('email', "-", existeEmail.Email,"-" , "-",createUserDto.Email, "-", (existeEmail.Email == createUserDto.Email))
 
       var existeUserName = await this.usuarioService.findBy(
         'Username',
         createUserDto.Username
-      ) !== null ? true: false
-      console.log('Username', existeUserName)
+      )
+      console.log('Username', "-", existeEmail.Username,"-" , "-",createUserDto.Username, "-", (existeEmail.Username == createUserDto.Username))
 
       var existeRut = await this.usuarioService.findBy(
         'Rut',
         createUserDto.Rut
-      ) !== null ? true: false
-      console.log('Rut', existeRut)
+      )
+      console.log('Rut', "-", existeEmail.Rut,"-" , "-",createUserDto.Rut, "-", (existeEmail.Rut == createUserDto.Rut))
 
 
       if(existeEmail) {
