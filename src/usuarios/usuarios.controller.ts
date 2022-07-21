@@ -10,7 +10,8 @@ export class UsuariosController {
   @Post()
   async create(@Body() createUserDto: CreateUsuariosDto) {
     await this.usuarioService.create(createUserDto)
-    // ToDO: Implementar envío de email.
+    // TODO: Implementar validaciones de datos y existencia de usuarios
+    // TODO: Implementar envío de email.
   }
 
   @Get()
