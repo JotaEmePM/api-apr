@@ -33,20 +33,11 @@ export class UsuariosController {
       var existeRut = await this.usuarioService.findBy('Rut', createUserDto.Rut)
 
       if (existeEmail.length > 0) {
-        const resDto = new ResponseDto()
-        resDto.IsError = true
-        resDto.Message = 'Email ya se encuentra registrado '
-        return response.status(HttpStatus.BAD_REQUEST).json(resDto)
+        return response.status(HttpStatus.BAD_REQUEST).json(new ResponseDto(true, 'Email ya se encuentra registrado '))
       } else if (existeUserName.length > 0) {
-        const resDto = new ResponseDto()
-        resDto.IsError = true
-        resDto.Message = 'UserName ya se encuentra registrado '
-        return response.status(HttpStatus.BAD_REQUEST).json(resDto)
+        return response.status(HttpStatus.BAD_REQUEST).json(new ResponseDto(true, 'UserName ya se encuentra registrado ' ))
       } else if (existeRut.length > 0) {
-        const resDto = new ResponseDto()
-        resDto.IsError = true
-        resDto.Message = 'Rut ya se encuentra registrado '
-        return response.status(HttpStatus.BAD_REQUEST).json(resDto)
+        return response.status(HttpStatus.BAD_REQUEST).json(new ResponseDto(false, 'Rut ya se encuentra registrado'))
       } else {
         // TODO: Validar UserType
         // TODO: Validar password
@@ -54,16 +45,12 @@ export class UsuariosController {
         // TODO: Validar permisos usuario creador
 
         const newUser = await this.usuarioService.create(createUserDto)
-        const resDto = new ResponseDto()
-        resDto.IsError = false
-        ;(resDto.Message = 'Usuario registrado correctamente-'), existeEmail
-        return response.status(HttpStatus.OK).json(resDto)
+
+        return response.status(HttpStatus.OK).json(new ResponseDto(false, 'Usuario registrado correctamente'))
       }
     } catch (error) {
-      const resDto = new ResponseDto()
-      resDto.IsError = true
-      ;(resDto.Message = 'Problema con datos: '), error
-      return response.status(HttpStatus.BAD_REQUEST).json(resDto)
+
+      return response.status(HttpStatus.BAD_REQUEST).json(true, 'Problema con datos: ' + error)
     }
     // TODO: Implementar validaciones de datos y existencia de usuarios
     // TODO: Implementar envío de email.
