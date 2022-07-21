@@ -56,9 +56,8 @@ export class UsuariosService {
     return this.usuariosModel.findOne({ _id: id }).exec()
   }
 
-  async findBy(key: string, value: string): Promise<Usuarios> {
-    const query = this.usuariosModel.where({ key: value});
-    return query.findOne().exec()
+  async findBy(key: string, value: string): Promise<Usuarios[]> {
+    return this.usuariosModel.where({ key: value}).exec()
   }
 
   async delete(id: string) {
