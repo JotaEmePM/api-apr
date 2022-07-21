@@ -8,8 +8,10 @@ import {
 import { UserTypeService } from './UserType.Services'
 import { UserType } from './schemas/usertype.schema'
 import { ResponseDto, ResponseValueDto } from 'src/dto/response.dto'
+import { ApiTags } from '@nestjs/swagger'
 
-@Controller('usuario')
+@Controller('UserType')
+@ApiTags('UserType')
 export class UserTypeController {
   constructor(private readonly usertypeService: UserTypeService) {}
 

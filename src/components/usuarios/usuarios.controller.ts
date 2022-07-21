@@ -6,8 +6,6 @@ import {
   Param,
   Post,
   Res,
-  UsePipes,
-  ValidationPipe,
   HttpStatus,
 } from '@nestjs/common'
 import { UsuariosService } from './Usuarios.services'
@@ -15,8 +13,10 @@ import { CreateUsuariosDto } from './dto/create-usuarios.dto'
 import { Usuarios } from './schemas/usuarios.schema'
 import { validateOrReject } from 'class-validator'
 import { ResponseDto } from 'src/dto/response.dto'
+import { ApiTags } from '@nestjs/swagger'
 
 @Controller('usuario')
+@ApiTags('Usuario')
 export class UsuariosController {
   constructor(private readonly usuarioService: UsuariosService) {}
 
