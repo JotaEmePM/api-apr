@@ -1,5 +1,5 @@
 export class ResponseDto {
-  IsError: boolean,
+  IsError: boolean
   Message: string
 }
 
