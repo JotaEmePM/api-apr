@@ -13,11 +13,21 @@ export class UsuariosController {
 
   async create(@Body() createUserDto: CreateUsuariosDto, @Res() response) {
     try {
+      // Validar datos de entrada
       await validateOrReject(createUserDto)
+
+      // Validar existencia de usuario
+      //  ValidarEmail
+      var existeEmail = await this.usuarioService.findBy("Email", createUserDto.Email)
+      //  ValidarNombreUsuario
+      //  ValidarRut
+
+      // TODO: Validar permisos usuario creador
+
       const newUser = await this.usuarioService.create(createUserDto)
       const resDto = new ResponseDto();
       resDto.IsError = false;
-      resDto.Message = "Usuario registrado correctamente"
+      resDto.Message = "Usuario registrado correctamente-", existeEmail
       return response.status(HttpStatus.OK).json(resDto)
     } catch (error) {
       const resDto = new ResponseDto();
