@@ -1,4 +1,15 @@
-import { Body, Controller, Delete, Get, Param, Post, Res, UsePipes, ValidationPipe, HttpStatus } from '@nestjs/common'
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Res,
+  UsePipes,
+  ValidationPipe,
+  HttpStatus,
+} from '@nestjs/common'
 import { UsuariosService } from './Usuarios.services'
 import { CreateUsuariosDto } from './dto/create-usuarios.dto'
 import { Usuarios } from './schemas/usuarios.schema'
@@ -10,7 +21,6 @@ export class UsuariosController {
   constructor(private readonly usuarioService: UsuariosService) {}
 
   @Post()
-
   async create(@Body() createUserDto: CreateUsuariosDto, @Res() response) {
     try {
       // Validar datos de entrada
@@ -18,21 +28,25 @@ export class UsuariosController {
 
       // Validar existencia de usuario
       //  ValidarEmail
-      var existeEmail = await this.usuarioService.findBy("Email", createUserDto.Email)
+      var existeEmail = await this.usuarioService.findBy(
+        'Email',
+        createUserDto.Email
+      )
+      console.log(existeEmail)
       //  ValidarNombreUsuario
       //  ValidarRut
 
       // TODO: Validar permisos usuario creador
 
       const newUser = await this.usuarioService.create(createUserDto)
-      const resDto = new ResponseDto();
-      resDto.IsError = false;
-      resDto.Message = "Usuario registrado correctamente-", existeEmail
+      const resDto = new ResponseDto()
+      resDto.IsError = false
+      ;(resDto.Message = 'Usuario registrado correctamente-'), existeEmail
       return response.status(HttpStatus.OK).json(resDto)
     } catch (error) {
-      const resDto = new ResponseDto();
-      resDto.IsError = true;
-      resDto.Message = "Problema con datos: ", error
+      const resDto = new ResponseDto()
+      resDto.IsError = true
+      ;(resDto.Message = 'Problema con datos: '), error
       return response.status(HttpStatus.BAD_REQUEST).json(resDto)
     }
     // TODO: Implementar validaciones de datos y existencia de usuarios
