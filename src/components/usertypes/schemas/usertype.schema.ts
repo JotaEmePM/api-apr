@@ -7,13 +7,10 @@ export type UsertypeDocument = UserType & Document
 @Schema()
 export class UserType {
   @Prop()
-  @IsNotEmpty()
-  @IsNumber()
   IdType: Number
 
   @Prop()
   @IsNotEmpty()
-  @MinLength(3)
   Description: string
 
   @Prop()
