@@ -1,15 +1,30 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Post, Res, UsePipes, ValidationPipe, HttpStatus } from '@nestjs/common'
 import { UsuariosService } from './Usuarios.services'
 import { CreateUsuariosDto } from './dto/create-usuarios.dto'
 import { Usuarios } from './schemas/usuarios.schema'
+import { validateOrReject } from 'class-validator'
+import { ResponseDto } from 'src/dto/response.dto'
 
 @Controller('usuario')
 export class UsuariosController {
   constructor(private readonly usuarioService: UsuariosService) {}
 
   @Post()
-  async create(@Body() createUserDto: CreateUsuariosDto) {
-    await this.usuarioService.create(createUserDto)
+
+  async create(@Body() createUserDto: CreateUsuariosDto, @Res() response) {
+    try {
+      await validateOrReject(createUserDto)
+      const newUser = await this.usuarioService.create(createUserDto)
+      const resDto = new ResponseDto();
+      resDto.IsError = false;
+      resDto.Message = "Usuario registrado correctamente"
+      return response.status(HttpStatus.OK).json(resDto)
+    } catch (error) {
+      const resDto = new ResponseDto();
+      resDto.IsError = true;
+      resDto.Message = "Problema con datos: ", error
+      return response.status(HttpStatus.BAD_REQUEST).json(resDto)
+    }
     // TODO: Implementar validaciones de datos y existencia de usuarios
     // TODO: Implementar envío de email.
   }
