@@ -3,14 +3,14 @@ import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
 import { CreateUserTypeDto } from './dto/create-usertype.dto'
 import {
-  UserType, UsertypeDocument, UserTypeSchema
+  UserType, UsertypeDocument,
 } from './schemas/usertype.schema'
 
 @Injectable()
 export class UserTypeService {
   constructor(
     @InjectModel(UserType.name)
-    private readonly usertypeModel: Model<UserType>,
+    private readonly usertypeModel: Model<UsertypeDocument>,
   ) {}
 
   async findAll(): Promise<UserType[]> {
