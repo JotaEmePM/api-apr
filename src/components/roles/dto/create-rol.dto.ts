@@ -1,5 +1,5 @@
 export class CreateRolDto {
-    Nombre: string
-    Descripcion: string
-    Habilitado: boolean
+  Nombre: string
+  Descripcion: string
+  Habilitado: boolean
 }

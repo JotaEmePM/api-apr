@@ -13,9 +13,9 @@ import { UsuariosService } from './Usuarios.services'
 import { CreateUsuariosDto } from './dto/create-usuarios.dto'
 import { Usuarios } from './schemas/usuarios.schema'
 import { validateOrReject } from 'class-validator'
-import { ResponseDto } from 'src/dto/response.dto'
+import { ResponseDto, ResponseValueDto } from 'src/dto/response.dto'
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
-import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
+import { JwtAuthGuard } from '../../auth/jwt-auth.guard'
 
 @ApiBearerAuth()
 @Controller('usuario')
@@ -66,7 +66,13 @@ export class UsuariosController {
 
         return response
           .status(HttpStatus.OK)
-          .json(new ResponseDto(false, 'Usuario registrado correctamente'))
+          .json(
+            new ResponseValueDto(
+              false,
+              'Usuario registrado correctamente',
+              newUser
+            )
+          )
       }
     } catch (error) {
       return response

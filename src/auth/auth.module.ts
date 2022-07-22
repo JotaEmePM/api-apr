@@ -10,7 +10,7 @@ import {
 import { JwtModule } from '@nestjs/jwt'
 import { JwtStrategy } from './jwt.strategy'
 import { ConfigModule } from '@nestjs/config'
-import { jwtConstant } from './jwt.constants';
+import { jwtConstant } from './jwt.constants'
 
 @Module({
   imports: [
