@@ -8,6 +8,7 @@ async function bootstrap() {
 
   // Swagger
   const config = new DocumentBuilder()
+    .addBearerAuth()
     .setTitle('APR API')
     .setDescription('APR API Descripción')
     .setVersion('1.0')
