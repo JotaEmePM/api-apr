@@ -8,7 +8,9 @@ import {
   UsuariosSchema,
 } from 'src/components/usuarios/schemas/usuarios.schema'
 import { JwtModule } from '@nestjs/jwt'
-import { JwtStrategy } from './jwt.strategy';
+import { JwtStrategy } from './jwt.strategy'
+import { ConfigModule } from '@nestjs/config'
+import { jwtConstant } from './jwt.constants';
 
 @Module({
   imports: [
@@ -16,9 +18,10 @@ import { JwtStrategy } from './jwt.strategy';
       { name: Usuarios.name, schema: UsuariosSchema },
     ]),
     JwtModule.register({
-      secret: 'sdfsdf',
+      secret: jwtConstant.secret,
       signOptions: { expiresIn: '24h' },
     }),
+    ConfigModule,
   ],
   controllers: [AuthController],
   providers: [AuthService, SecurityService, JwtStrategy],
