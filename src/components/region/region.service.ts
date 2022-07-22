@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
-import { CreateRegionDto } from './dto/create-region.dto'
+// import { CreateRegionDto } from './dto/create-region.dto'
 import { Region } from './schemas/region.schema'
 
 @Injectable()
@@ -11,9 +11,9 @@ export class RegionService {
     private readonly regionModel: Model<Region>
   ) {}
 
-  async create(createRegionDto: CreateRegionDto) {
-    return await this.regionModel.create(createRegionDto)
-  }
+  // async create(createRegionDto: CreateRegionDto) {
+  //   return await this.regionModel.create(createRegionDto)
+  // }
 
   async findAll() {
     return this.regionModel.find().exec()

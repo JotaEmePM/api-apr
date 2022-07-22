@@ -12,10 +12,10 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard'
 export class RegionController {
   constructor(private readonly regionService: RegionService) {}
 
-  @Post()
-  create(@Body() createRegionDto: CreateRegionDto) {
-    return this.regionService.create(createRegionDto)
-  }
+  // @Post()
+  // create(@Body() createRegionDto: CreateRegionDto) {
+  //   return this.regionService.create(createRegionDto)
+  // }
 
   @Get()
   findAll() {
