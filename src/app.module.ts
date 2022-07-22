@@ -7,6 +7,7 @@ import { UsuariosModule } from './components/usuarios/usuarios.module'
 import { AuthModule } from './auth/auth.module'
 import { ConfigModule } from '@nestjs/config'
 import { RegionModule } from './components/region/region.module'
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { RegionModule } from './components/region/region.module'
       isGlobal: true,
     }),
     RegionModule,
+    HealthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

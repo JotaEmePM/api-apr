@@ -1,6 +1,6 @@
 import { Controller, Get, Param } from '@nestjs/common'
 import { RolService } from './rol.service'
-import { CreateRolDto } from './dto/create-rol.dto'
+// import { CreateRolDto } from './dto/create-rol.dto'
 import { Rol } from './schemas/rol.schema'
 import { ApiTags } from '@nestjs/swagger'
 
