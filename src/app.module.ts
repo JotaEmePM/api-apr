@@ -12,7 +12,6 @@ import { HealthModule } from './health/health.module'
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: `.${process.env.NODE_ENV}.env`,
       isGlobal: true,
     }),
     MongooseModule.forRoot(process.env.DATABASE_URI),

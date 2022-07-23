@@ -8,9 +8,7 @@ import { MongooseModule } from '@nestjs/mongoose'
   imports: [
     TerminusModule,
     HttpModule,
-    MongooseModule.forRoot(
-      'mongodb+srv://jotaemepm:_8xqF4ryPsh35Kv@cluster0.aoefb.mongodb.net/apr?retryWrites=true&w=majority'
-    ),
+    MongooseModule.forRoot(process.env.DATABASE_URI),
   ],
   controllers: [HealthController],
 })
