@@ -25,6 +25,7 @@ async function bootstrap() {
       transform: true,
     })
   )
+
+  await app.listen(process.env.PORT || 8080)
 }
-console.log(`heloooo .${process.env.NODE_ENV}.env`)
 bootstrap()
