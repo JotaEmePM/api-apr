@@ -11,16 +11,14 @@ import { HealthModule } from './health/health.module'
 
 @Module({
   imports: [
-    MongooseModule.forRoot(
-      'mongodb+srv://jotaemepm:_8xqF4ryPsh35Kv@cluster0.aoefb.mongodb.net/apr?retryWrites=true&w=majority'
-    ),
+    ConfigModule.forRoot({
+      envFilePath: `.${process.env.NODE_ENV}.env`,
+      isGlobal: true,
+    }),
+    MongooseModule.forRoot(process.env.DATABASE_URI),
     UsuariosModule,
     RolModule,
     AuthModule,
-    ConfigModule.forRoot({
-      envFilePath: '.dev.env',
-      isGlobal: true,
-    }),
     RegionModule,
     HealthModule,
   ],

@@ -1,6 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { HttpService } from '@nestjs/axios'
-import { URLSearchParams } from 'url'
 import { EnviarCorreoConfirmacion } from './dto/enviarCorreoConfirmacion.dto'
 import qs from 'qs'
 
