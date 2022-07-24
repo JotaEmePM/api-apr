@@ -6,6 +6,7 @@ import { UsuariosDocument } from '../components/usuarios/schemas/usuarios.schema
 import { Model } from 'mongoose'
 import { SecurityService } from '../services/security.services'
 import { JwtService } from '@nestjs/jwt'
+import { ResponseValueDto } from '../dto/response.dto'
 
 @Injectable()
 export class AuthService {
@@ -35,11 +36,9 @@ export class AuthService {
       username: findUser.Username,
       email: findUser.Email,
       nombre: findUser.Nombre,
+      IsVerified: findUser.EmailVerificado,
     }
     const token = await this.jwtService.signAsync(payload)
-    return {
-      user: findUser,
-      token,
-    }
+    return new ResponseValueDto(false, 'Usuario verificado', { token, payload })
   }
 }

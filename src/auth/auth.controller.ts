@@ -1,8 +1,14 @@
 import { Body, Controller, Post } from '@nestjs/common'
-import { ApiTags } from '@nestjs/swagger'
+import {
+  ApiBody,
+  ApiCreatedResponse,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger'
+import { ResponseValueDto } from 'src/dto/response.dto';
 import { AuthService } from './auth.service'
 // import { RegisterAuthDto } from './dto/register-auth.dto'
-import { LoginAuthDto } from './dto/login-auth.dto'
+import { LoginAuthDto } from './dto/login-auth.dto';
 
 @Controller('auth')
 @ApiTags('auth')
@@ -15,7 +21,21 @@ export class AuthController {
   // }
 
   @Post('login')
-  loginUser(@Body() userObjectLogin: LoginAuthDto) {
-    return this.authService.login(userObjectLogin)
+  @ApiBody({ type: LoginAuthDto })
+  // @ApiResponse({ status: 201, description: 'Usuario conectado correctamente' })
+  // @ApiResponse({ status: 403, description: 'Forbidden' })
+  @ApiCreatedResponse({
+    description: 'Metadata de conexión y token',
+    type: ResponseValueDto,
+  })
+  async loginUser(
+    @Body() userObjectLogin: LoginAuthDto
+  ): Promise<ResponseValueDto> {
+    const response = await this.authService.login(userObjectLogin)
+    if (response && !response.IsError) {
+      return response
+    } else {
+      return response
+    }
   }
 }
