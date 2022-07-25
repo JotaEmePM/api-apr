@@ -17,7 +17,8 @@ import { ResponseDto, ResponseValueDto } from 'src/dto/response.dto'
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import { JwtAuthGuard } from '../../auth/jwt-auth.guard'
 import { ViewUsuarioDto } from './dto/view-usuario.dto'
-import { EmailService } from '../email/email.service'
+import { EmailService } from 'src/email/email.services'
+import { EnviarCorreoConfirmacionDto } from 'src/email/dto/enviarCorreoConfirmacion.Dto'
 
 @ApiBearerAuth()
 @Controller('usuario')
@@ -67,7 +68,7 @@ export class UsuariosController {
 
         const newUser = await this.usuarioService.create(createUserDto)
         var usuarioData = new ViewUsuarioDto()
-        usuarioData.UserId = newUser._id
+        usuarioData.UserId = newUser.id
         usuarioData.Username = newUser.Username
         usuarioData.Nombre = newUser.Nombre
         usuarioData.Rut = newUser.Rut
@@ -81,7 +82,7 @@ export class UsuariosController {
         emailConfirmation.email = newUser.Email
         emailConfirmation.token = newUser.EmailToken
         emailConfirmation.nombre = newUser.Nombre
-        emailConfirmation.userId = newUser._id
+        emailConfirmation.userId = newUser.id
         this.emailService.EnviarEmailConfirmacion(emailConfirmation)
 
         return response
