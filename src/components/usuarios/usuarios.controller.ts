@@ -68,7 +68,8 @@ export class UsuariosController {
 
         const newUser = await this.usuarioService.create(createUserDto)
         var usuarioData = new ViewUsuarioDto()
-        usuarioData.UserId = newUser.UserId
+        console.log(newUser)
+        //usuarioData.UserId = newUser.UserId
         usuarioData.Username = newUser.Username
         usuarioData.Nombre = newUser.Nombre
         usuarioData.Rut = newUser.Rut
@@ -82,7 +83,7 @@ export class UsuariosController {
         emailConfirmation.email = newUser.Email
         emailConfirmation.token = newUser.EmailToken
         emailConfirmation.nombre = newUser.Nombre
-        emailConfirmation.userId = newUser.UserId
+        //emailConfirmation.userId = newUser.UserId
         this.emailService.EnviarEmailConfirmacion(emailConfirmation)
 
         return response
@@ -91,7 +92,7 @@ export class UsuariosController {
             new ResponseValueDto(
               false,
               'Usuario registrado correctamente',
-              usuarioData
+              newUser
             )
           )
       }
