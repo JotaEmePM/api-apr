@@ -16,12 +16,15 @@ import { validateOrReject } from 'class-validator'
 import { ResponseDto, ResponseValueDto } from 'src/dto/response.dto'
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import { JwtAuthGuard } from '../../auth/jwt-auth.guard'
+import { ViewUsuarioDto } from './dto/view-usuario.dto'
+import { EmailService } from '../email/email.service'
 
 @ApiBearerAuth()
 @Controller('usuario')
 @ApiTags('Usuario')
 export class UsuariosController {
-  constructor(private readonly usuarioService: UsuariosService) {}
+  constructor(private readonly usuarioService: UsuariosService,
+    private readonly emailService: EmailService) {}
 
   @Post()
   async create(@Body() createUserDto: CreateUsuariosDto, @Res() response) {
@@ -63,6 +66,23 @@ export class UsuariosController {
         // TODO: Validar permisos usuario creador
 
         const newUser = await this.usuarioService.create(createUserDto)
+        var usuarioData = new ViewUsuarioDto()
+        usuarioData.UserId = newUser._id
+        usuarioData.Username = newUser.Username
+        usuarioData.Nombre = newUser.Nombre
+        usuarioData.Rut = newUser.Rut
+        usuarioData.Email = newUser.Email
+        usuarioData.Telefono = newUser.Telefono
+        usuarioData.EsParticular = newUser.EsParticular
+        usuarioData.EmailVerificado = newUser.EmailVerificado
+
+        // TODO: Implementar envío de email.
+        const emailConfirmation = new EnviarCorreoConfirmacionDto()
+        emailConfirmation.email = newUser.Email
+        emailConfirmation.token = newUser.EmailToken
+        emailConfirmation.nombre = newUser.Nombre
+        emailConfirmation.userId = newUser._id
+        this.emailService.EnviarEmailConfirmacion(emailConfirmation)
 
         return response
           .status(HttpStatus.OK)
@@ -70,7 +90,7 @@ export class UsuariosController {
             new ResponseValueDto(
               false,
               'Usuario registrado correctamente',
-              newUser
+              usuarioData
             )
           )
       }
@@ -79,8 +99,7 @@ export class UsuariosController {
         .status(HttpStatus.BAD_REQUEST)
         .json(true, 'Problema con datos: ' + error)
     }
-    // TODO: Implementar validaciones de datos y existencia de usuarios
-    // TODO: Implementar envío de email.
+    
   }
 
   @Get()

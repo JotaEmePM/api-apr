@@ -4,6 +4,7 @@ import { UsuariosSchema, Usuarios } from './schemas/usuarios.schema'
 import { UsuariosController } from './usuarios.controller'
 import { SecurityService } from 'src/services/security.services'
 import { UsuariosService } from './Usuarios.services'
+import { EmailService } from 'src/email/email.services'
 
 @Module({
   imports: [
@@ -12,6 +13,6 @@ import { UsuariosService } from './Usuarios.services'
     ]),
   ],
   controllers: [UsuariosController],
-  providers: [UsuariosService, SecurityService],
+  providers: [UsuariosService, SecurityService, EmailService],
 })
 export class UsuariosModule {}
