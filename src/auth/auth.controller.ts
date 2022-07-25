@@ -1,14 +1,9 @@
 import { Body, Controller, Post } from '@nestjs/common'
-import {
-  ApiBody,
-  ApiCreatedResponse,
-  ApiResponse,
-  ApiTags,
-} from '@nestjs/swagger'
-import { ResponseValueDto } from 'src/dto/response.dto';
+import { ApiBody, ApiCreatedResponse, ApiTags } from '@nestjs/swagger'
+import { ResponseValueDto } from 'src/dto/response.dto'
 import { AuthService } from './auth.service'
 // import { RegisterAuthDto } from './dto/register-auth.dto'
-import { LoginAuthDto } from './dto/login-auth.dto';
+import { LoginAuthDto } from './dto/login-auth.dto'
 
 @Controller('auth')
 @ApiTags('auth')
@@ -31,6 +26,8 @@ export class AuthController {
   async loginUser(
     @Body() userObjectLogin: LoginAuthDto
   ): Promise<ResponseValueDto> {
+    console.log(userObjectLogin)
+
     const response = await this.authService.login(userObjectLogin)
     if (response && !response.IsError) {
       return response

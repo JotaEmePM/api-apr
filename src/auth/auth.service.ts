@@ -20,6 +20,8 @@ export class AuthService {
   async login(loginAuthDto: LoginAuthDto) {
     const { email, password } = loginAuthDto
     const findUser = await this.userModel.findOne({ email })
+
+    console.log(findUser)
     if (!findUser)
       throw new HttpException('Usuario no encontrado', HttpStatus.NOT_FOUND)
 

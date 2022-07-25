@@ -1,14 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger'
 
-export class EnviarCorreoConfirmacionDto {
-  @ApiProperty()
-  email: string
-
+export class ConfirmaEmailDto {
   @ApiProperty()
   token: string
-
-  @ApiProperty()
-  nombre: string
 
   @ApiProperty()
   userId: string
