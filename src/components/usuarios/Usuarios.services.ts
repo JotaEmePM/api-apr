@@ -8,13 +8,15 @@ import {
   UsuariosDocument,
   PasswordHistory,
 } from './schemas/usuarios.schema'
+import { HttpService } from '@nestjs/axios'
 
 @Injectable()
 export class UsuariosService {
   constructor(
     @InjectModel(Usuarios.name)
     private readonly usuariosModel: Model<UsuariosDocument>,
-    private readonly securityService: SecurityService
+    private readonly securityService: SecurityService,
+    private httpService: HttpService
   ) {}
 
   async create(createUsuarioDto: CreateUsuariosDto): Promise<Usuarios> {

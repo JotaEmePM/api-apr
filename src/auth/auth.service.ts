@@ -41,6 +41,7 @@ export class AuthService {
       IsVerified: findUser.EmailVerificado,
     }
     const token = await this.jwtService.signAsync(payload)
+    // TODO: Vistas disponibles
     return new ResponseValueDto(false, 'Usuario verificado', { token, payload })
   }
 }
