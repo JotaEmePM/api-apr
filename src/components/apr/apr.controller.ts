@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common'
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard'
-import { APRService } from './apr.service';
-import { CreateAPRDto } from './dto/createAPR.dto';
+import { APRService } from './apr.service'
+import { CreateAPRDto } from './dto/createAPR.dto'
 
 @ApiTags('apr')
 @Controller('apr')

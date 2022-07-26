@@ -1,4 +1,3 @@
-import { Get } from '@nestjs/common'
 import { Body, Controller, Post } from '@nestjs/common'
 import { ApiBody, ApiCreatedResponse, ApiTags } from '@nestjs/swagger'
 import { ResponseValueDto } from 'src/dto/response.dto'

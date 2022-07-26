@@ -1,8 +1,7 @@
 import { Controller, Get, Param, UseGuards } from '@nestjs/common'
-
 import { RegionService } from './region.service'
 // import { CreateRegionDto } from './dto/create-region.dto'
-import { ApiBasicAuth, ApiBearerAuth, ApiTags } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard'
 
 @ApiTags('region')

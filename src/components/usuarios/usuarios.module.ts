@@ -5,7 +5,7 @@ import { UsuariosController } from './usuarios.controller'
 import { SecurityService } from 'src/services/security.services'
 import { UsuariosService } from './Usuarios.services'
 import { EmailService } from 'src/email/email.services'
-import { HttpModule, HttpService } from '@nestjs/axios'
+import { HttpModule } from '@nestjs/axios'
 
 @Module({
   imports: [

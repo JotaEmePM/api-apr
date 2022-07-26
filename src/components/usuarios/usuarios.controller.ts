@@ -24,8 +24,10 @@ import { EnviarCorreoConfirmacionDto } from 'src/email/dto/enviarCorreoConfirmac
 @Controller('usuario')
 @ApiTags('Usuario')
 export class UsuariosController {
-  constructor(private readonly usuarioService: UsuariosService,
-    private readonly emailService: EmailService) {}
+  constructor(
+    private readonly usuarioService: UsuariosService,
+    private readonly emailService: EmailService
+  ) {}
 
   @Post()
   async create(@Body() createUserDto: CreateUsuariosDto, @Res() response) {
@@ -67,7 +69,7 @@ export class UsuariosController {
         // TODO: Validar permisos usuario creador
 
         const newUser = await this.usuarioService.create(createUserDto)
-        var usuarioData = new ViewUsuarioDto()
+        const usuarioData = new ViewUsuarioDto()
         console.log(newUser)
         //usuarioData.UserId = newUser.UserId
         usuarioData.Username = newUser.Username
@@ -101,7 +103,6 @@ export class UsuariosController {
         .status(HttpStatus.BAD_REQUEST)
         .json(true, 'Problema con datos: ' + error)
     }
-    
   }
 
   @Get()

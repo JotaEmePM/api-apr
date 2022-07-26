@@ -1,5 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IsDate, IsEnum, IsString, MinLength } from 'class-validator'
 import { TipoCuenta } from '../schema/apr.schema'
 
 export class CreateAPRDto {
