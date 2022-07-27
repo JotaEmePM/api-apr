@@ -19,7 +19,7 @@ export class UsuariosService {
     private httpService: HttpService
   ) {}
 
-  async create(createUsuarioDto: CreateUsuariosDto): Promise<Usuarios> {
+  async create(createUsuarioDto: CreateUsuariosDto): Promise<any> {
     const password = new PasswordHistory()
     password.Id = 1
     password.FechaCreacion = new Date()
@@ -47,7 +47,10 @@ export class UsuariosService {
     user.PasswordHistory = [password]
 
     const createdUsuario = await this.usuariosModel.create(user)
-    return createdUsuario
+    return {
+      user: createdUsuario,
+      userId: createdUsuario._id,
+    }
   }
 
   async findAll(): Promise<Usuarios[]> {

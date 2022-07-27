@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common'
+import { Body, Controller, Get, Post } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { EnviarCorreoConfirmacionDto } from './dto/enviarCorreoConfirmacion.dto'
 import { EmailService } from './email.services'
@@ -11,5 +11,10 @@ export class EmailController {
   @Post()
   async EnviarCorreo(@Body() correoConfirmacion: EnviarCorreoConfirmacionDto) {
     return await this.emailService.EnviarEmailConfirmacion(correoConfirmacion)
+  }
+
+  @Get()
+  async GetEmailLog() {
+    return await this.emailService.GetEmailLog()
   }
 }

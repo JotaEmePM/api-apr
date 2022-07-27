@@ -9,6 +9,7 @@ import {
   Usuarios,
   UsuariosDocument,
 } from 'src/components/usuarios/schemas/usuarios.schema'
+import { map } from 'rxjs'
 
 @Injectable()
 export class EmailService {
@@ -17,6 +18,19 @@ export class EmailService {
     private readonly userModel: Model<UsuariosDocument>,
     private readonly httpService: HttpService
   ) {}
+
+  // TODO: Implementar paginación
+  async GetEmailLog() {
+    const headers = {
+      'Content-Type': 'application/application/json',
+      'X-API-KEY': process.env.EMAIL_APIKEY,
+    }
+    return this.httpService
+      .get(process.env.EMAIL_APILOG, {
+        headers,
+      })
+      .pipe(map(x => x?.data))
+  }
 
   async ConfirmarEmail(confirmaEmailDto: ConfirmaEmailDto): Promise<boolean> {
     const findUser = await this.userModel.findOne({

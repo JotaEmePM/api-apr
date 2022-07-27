@@ -68,24 +68,26 @@ export class UsuariosController {
 
         // TODO: Validar permisos usuario creador
 
-        const newUser = await this.usuarioService.create(createUserDto)
+        const { user, userId } = await this.usuarioService.create(createUserDto)
         const usuarioData = new ViewUsuarioDto()
-        console.log(newUser)
-        //usuarioData.UserId = newUser.UserId
-        usuarioData.Username = newUser.Username
-        usuarioData.Nombre = newUser.Nombre
-        usuarioData.Rut = newUser.Rut
-        usuarioData.Email = newUser.Email
-        usuarioData.Telefono = newUser.Telefono
-        usuarioData.EsParticular = newUser.EsParticular
-        usuarioData.EmailVerificado = newUser.EmailVerificado
+        console.log(userId)
+
+        usuarioData.UserId = userId
+
+        usuarioData.Username = user.Username
+        usuarioData.Nombre = user.Nombre
+        usuarioData.Rut = user.Rut
+        usuarioData.Email = user.Email
+        usuarioData.Telefono = user.Telefono
+        usuarioData.EsParticular = user.EsParticular
+        usuarioData.EmailVerificado = user.EmailVerificado
 
         // TODO: Implementar envío de email.
         const emailConfirmation = new EnviarCorreoConfirmacionDto()
-        emailConfirmation.email = newUser.Email
-        emailConfirmation.token = newUser.EmailToken
-        emailConfirmation.nombre = newUser.Nombre
-        //emailConfirmation.userId = newUser.UserId
+        emailConfirmation.email = user.Email
+        emailConfirmation.token = user.EmailToken
+        emailConfirmation.nombre = user.Nombre
+        emailConfirmation.userId = userId
         this.emailService.EnviarEmailConfirmacion(emailConfirmation)
 
         return response
@@ -94,7 +96,7 @@ export class UsuariosController {
             new ResponseValueDto(
               false,
               'Usuario registrado correctamente',
-              newUser
+              usuarioData
             )
           )
       }
