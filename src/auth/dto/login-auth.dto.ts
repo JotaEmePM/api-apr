@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsEmail, MaxLength, MinLength } from 'class-validator'
 
-export class LoginAuthDto {
+export class LoginUserAuthDto {
   @ApiProperty({
-    name: 'Email',
+    name: 'email',
     description: 'Email del usuario registrado',
     required: true,
     type: String,
@@ -20,4 +20,12 @@ export class LoginAuthDto {
   @MinLength(4)
   @MaxLength(12)
   password: string
+
+  @ApiProperty({
+    name: 'subdomain',
+    description: 'subdominio a conectar',
+    required: true,
+    type: String,
+  })
+  subdomain: string
 }

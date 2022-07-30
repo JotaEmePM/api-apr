@@ -1,47 +1,119 @@
 import { HttpException, Injectable, HttpStatus } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Usuarios } from 'src/components/usuarios/schemas/usuarios.schema'
-import { LoginAuthDto } from './dto/login-auth.dto'
+import { LoginUserAuthDto } from './dto/login-auth.dto'
 import { UsuariosDocument } from '../components/usuarios/schemas/usuarios.schema'
 import { Model } from 'mongoose'
 import { SecurityService } from '../services/security.services'
 import { JwtService } from '@nestjs/jwt'
 import { ResponseValueDto } from '../dto/response.dto'
+import {
+  APRUser,
+  APRUserDocument,
+} from '../components/apr/schema/aprUser.schema'
+import { APR, APRDocument } from '../components/apr/schema/apr.schema'
+import { RolDocument } from 'src/components/roles/schemas/rol.schema'
+import { Rol } from '../components/roles/schemas/rol.schema'
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectModel(Usuarios.name)
     private readonly userModel: Model<UsuariosDocument>,
+    @InjectModel(APR.name)
+    private readonly aprModel: Model<APRDocument>,
+    @InjectModel(APRUser.name)
+    private readonly aprUserModel: Model<APRUserDocument>,
+    @InjectModel(Rol.name)
+    private readonly rolModel: Model<RolDocument>,
     private readonly securityService: SecurityService,
     private readonly jwtService: JwtService
   ) {}
 
-  async login(loginAuthDto: LoginAuthDto) {
-    const { email, password } = loginAuthDto
+  async loginUser(loginAuthDto: LoginUserAuthDto) {
+    const { email, password, subdomain } = loginAuthDto
     const findUser = await this.userModel.findOne({ email })
 
-    console.log(findUser)
-    if (!findUser)
-      throw new HttpException('Usuario no encontrado', HttpStatus.NOT_FOUND)
+    if (subdomain === 'admin') {
+      if (!findUser.UserType.includes('62d9b6b719458b5009479d12'))
+        throw new HttpException('Usuario no es ADMIN', HttpStatus.NOT_FOUND)
 
-    const passwordIndex = findUser.PasswordHistory.findIndex(
-      u => u.Id == findUser.Password
-    )
-    const { Hash, Salt } = findUser.PasswordHistory[passwordIndex]
+      const passwordIndex = findUser.PasswordHistory.findIndex(
+        u => u.Id == findUser.Password
+      )
+      const { Hash, Salt } = findUser.PasswordHistory[passwordIndex]
 
-    if (!(await this.securityService.checkPassword(Salt, Hash, password)))
-      throw new HttpException('Contraseña invalida', HttpStatus.FORBIDDEN)
+      if (!(await this.securityService.checkPassword(Salt, Hash, password)))
+        throw new HttpException('Contraseña invalida', HttpStatus.FORBIDDEN)
 
-    const payload = {
-      id: findUser._id,
-      username: findUser.Username,
-      email: findUser.Email,
-      nombre: findUser.Nombre,
-      IsVerified: findUser.EmailVerificado,
+      const payload = {
+        id: findUser._id,
+        username: findUser.Username,
+        email: findUser.Email,
+        nombre: findUser.Nombre,
+        IsVerified: findUser.EmailVerificado,
+        rolId: '62d9b6b719458b5009479d12',
+        rolName: 'Admin',
+      }
+      const token = await this.jwtService.signAsync(payload)
+      // TODO: Vistas disponibles
+      return new ResponseValueDto(false, 'Usuario verificado', {
+        token,
+        payload,
+      })
+    } else {
+      const findDomain = await this.aprModel.findOne({ subdomain })
+
+      if (!findDomain)
+        throw new HttpException('Dominio no encontrado', HttpStatus.NOT_FOUND)
+
+      if (!findUser)
+        throw new HttpException('Usuario no encontrado', HttpStatus.NOT_FOUND)
+
+      const findUserAPR = await this.aprUserModel.findOne({
+        subdomainId: findDomain._id,
+        userId: findUser._id,
+      })
+
+      if (findUserAPR)
+        throw new HttpException(
+          'Usuario no pertenece a este APR',
+          HttpStatus.NOT_FOUND
+        )
+
+      if (!findUserAPR.enabled)
+        throw new HttpException(
+          'Usuario no habilitado para acceder',
+          HttpStatus.NOT_FOUND
+        )
+
+      const passwordIndex = findUser.PasswordHistory.findIndex(
+        u => u.Id == findUser.Password
+      )
+      const { Hash, Salt } = findUser.PasswordHistory[passwordIndex]
+
+      if (!(await this.securityService.checkPassword(Salt, Hash, password)))
+        throw new HttpException('Contraseña invalida', HttpStatus.FORBIDDEN)
+
+      const rol = await this.rolModel.findById(findUserAPR.rolId)
+      if (!rol)
+        throw new HttpException('Usuario rol no valido', HttpStatus.NOT_FOUND)
+
+      const payload = {
+        id: findUser._id,
+        username: findUser.Username,
+        email: findUser.Email,
+        nombre: findUser.Nombre,
+        IsVerified: findUser.EmailVerificado,
+        rolId: rol._id,
+        rolName: rol.Nombre,
+      }
+      const token = await this.jwtService.signAsync(payload)
+      // TODO: Vistas disponibles
+      return new ResponseValueDto(false, 'Usuario verificado', {
+        token,
+        payload,
+      })
     }
-    const token = await this.jwtService.signAsync(payload)
-    // TODO: Vistas disponibles
-    return new ResponseValueDto(false, 'Usuario verificado', { token, payload })
   }
 }
