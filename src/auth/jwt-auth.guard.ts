@@ -18,10 +18,10 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
 export class JwtAuthGuardAdmin extends AuthGuard('jwt') {
   canActivate(context: ExecutionContext) {
     const [req] = context.getArgs()
-    const { rolId } = this.parseJwt(
+    const { rolName } = this.parseJwt(
       req.headers.authorization.replace('Bearer ', '')
     )
-    if (rolId !== '62d9b6b719458b5009479d12') return false
+    if (rolName !== 'admin') return false
 
     return super.canActivate(context)
   }
