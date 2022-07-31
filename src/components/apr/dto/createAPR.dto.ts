@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
+import { IsEnum } from 'class-validator'
 import { TipoCuenta } from '../schema/apr.schema'
 
 export class CreateAPRDto {
@@ -27,6 +28,7 @@ export class CreateAPRDto {
   banco: string
 
   @ApiProperty()
+  @IsEnum(TipoCuenta)
   tipoCuenta: TipoCuenta
 
   @ApiProperty()

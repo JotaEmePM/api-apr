@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
-import { APR } from './schema/apr.schema'
+import { APR, TipoCuenta } from './schema/apr.schema'
 // import { CreateRegionDto } from './dto/create-region.dto'
 import { CreateAPRDto } from './dto/createAPR.dto'
 import { APRUser } from './schema/aprUser.schema'
 import { CreateAPRUserDto } from './dto/CreateAPRUser.dto'
 import { ResponseValueDto } from 'src/dto/response.dto'
+import { validateRut, formatRut } from 'rutlib'
 
 @Injectable()
 export class APRService {
@@ -21,6 +22,22 @@ export class APRService {
   //#region APR
   async create(createAPRDto: CreateAPRDto): Promise<ResponseValueDto> {
     try {
+      const subdomainExist = await this.aprModel.findOne({
+        subdomain: createAPRDto.subdomain,
+      })
+      if (subdomainExist)
+        return new ResponseValueDto(true, 'APR_DOMAINEXIST', null)
+
+      // Validar que APR no exista.
+      if (!validateRut(createAPRDto.rut)) {
+        return new ResponseValueDto(true, 'APR_RUTNOVALID', null)
+      }
+      createAPRDto.rut = formatRut(createAPRDto.rut, false)
+
+      const rutExist = await this.aprModel.findOne({ rut: createAPRDto.rut })
+      if (rutExist !== null)
+        return new ResponseValueDto(false, 'APR_RUTEXIST', null)
+
       return new ResponseValueDto(false, 'APR_CREATED', {
         apr: await this.aprModel.create(createAPRDto),
       })

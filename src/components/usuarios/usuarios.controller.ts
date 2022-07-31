@@ -24,6 +24,8 @@ import { JwtAuthGuard } from '../../auth/jwt-auth.guard'
 import { ViewUsuarioDto } from './dto/view-usuario.dto'
 import { EmailService } from 'src/email/email.services'
 import { EnviarCorreoConfirmacionDto } from 'src/email/dto/enviarCorreoConfirmacion.dto'
+import { validateRut, formatRut } from 'rutlib'
+import { passwordStrength } from 'check-password-strength'
 
 @ApiBearerAuth()
 @Controller('usuario')
@@ -47,8 +49,11 @@ export class UsuariosController {
       // Validar datos de entrada
       await validateOrReject(createUserDto)
 
-      // Validar existencia de usuario
-      //  ValidarEmail
+      if (!validateRut(createUserDto.Rut))
+        return new ResponseValueDto(true, 'USER_RUTINVALID', null)
+
+      createUserDto.Rut = formatRut(createUserDto.Rut)
+
       const existeEmail = await this.usuarioService.findBy(
         'Email',
         createUserDto.Email
@@ -77,8 +82,12 @@ export class UsuariosController {
       } else {
         // TODO: Validar UserType
         // TODO: Validar password
+        const checkPasswordStrenght = passwordStrength(createUserDto.Password)
+        if (checkPasswordStrenght.value === 'Too weak')
+          return new ResponseValueDto(true, 'USER_PASSWORDTOOWEAK', null)
 
-        // TODO: Validar permisos usuario creador
+        if (checkPasswordStrenght.value === 'Weak')
+          return new ResponseValueDto(true, 'USER_PASSWORDWEAK', null)
 
         const { user, userId } = await this.usuarioService.create(createUserDto)
         const usuarioData = new ViewUsuarioDto()

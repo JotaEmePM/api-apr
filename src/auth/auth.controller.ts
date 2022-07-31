@@ -1,4 +1,10 @@
-import { Body, Controller, Post } from '@nestjs/common'
+import {
+  Body,
+  Controller,
+  Post,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common'
 import { ApiBody, ApiCreatedResponse, ApiTags } from '@nestjs/swagger'
 import { ResponseValueDto } from 'src/dto/response.dto'
 import { AuthService } from './auth.service'
@@ -16,6 +22,7 @@ export class AuthController {
     description: 'Metadata de conexión y token',
     type: ResponseValueDto,
   })
+  @UsePipes(ValidationPipe)
   async loginUser(
     @Body() userObjectLogin: LoginUserAuthDto
   ): Promise<ResponseValueDto> {

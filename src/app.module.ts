@@ -13,6 +13,7 @@ import { ServeStaticModule } from '@nestjs/serve-static'
 import { EmailModule } from './email/email.module'
 import { APRModule } from './components/apr/apr.module'
 import { I18nModule } from 'nestjs-i18n'
+import { TestModule } from './components/test/test.module'
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { I18nModule } from 'nestjs-i18n'
     HealthModule,
     EmailModule,
     APRModule,
+    TestModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,7 +1,7 @@
 export class CreateUsuariosDto {
   readonly Username: string
   readonly Email: string
-  readonly Rut: string
+  Rut: string
   readonly Nombre: string
   readonly Telefono: string
   readonly EsParticular: boolean
