@@ -4,6 +4,7 @@
 
 ## TODO
 
-- [ ] Login compuesto
+- [ ] Implement HTTPS
+- [ ] Check CORS
 
 ---
