@@ -14,7 +14,12 @@ import { CreateUsuariosDto } from './dto/create-usuarios.dto'
 import { Usuarios } from './schemas/usuarios.schema'
 import { validateOrReject } from 'class-validator'
 import { ResponseDto, ResponseValueDto } from 'src/dto/response.dto'
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiCreatedResponse,
+  ApiTags,
+} from '@nestjs/swagger'
 import { JwtAuthGuard } from '../../auth/jwt-auth.guard'
 import { ViewUsuarioDto } from './dto/view-usuario.dto'
 import { EmailService } from 'src/email/email.services'
@@ -30,6 +35,13 @@ export class UsuariosController {
   ) {}
 
   @Post()
+  @ApiBody({ type: CreateUsuariosDto })
+  // @ApiResponse({ status: 201, description: 'Usuario conectado correctamente' })
+  // @ApiResponse({ status: 403, description: 'Forbidden' })
+  @ApiCreatedResponse({
+    description: 'Metadata usuario',
+    type: ResponseValueDto,
+  })
   async create(@Body() createUserDto: CreateUsuariosDto, @Res() response) {
     try {
       // Validar datos de entrada
@@ -109,8 +121,20 @@ export class UsuariosController {
 
   @Get()
   @UseGuards(JwtAuthGuard)
-  async findAll(): Promise<Usuarios[]> {
-    return this.usuarioService.findAll()
+  @ApiCreatedResponse({
+    description: 'Listado de usuarios',
+    type: ResponseValueDto,
+  })
+  async findAll(@Res() response): Promise<Usuarios[]> {
+    return response
+      .status(HttpStatus.OK)
+      .json(
+        new ResponseValueDto(
+          false,
+          'Listado de usuarios',
+          this.usuarioService.findAll()
+        )
+      )
   }
 
   @Get(':id')

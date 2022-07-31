@@ -12,6 +12,7 @@ import { join } from 'path'
 import { ServeStaticModule } from '@nestjs/serve-static'
 import { EmailModule } from './email/email.module'
 import { APRModule } from './components/apr/apr.module'
+import { I18nModule } from 'nestjs-i18n'
 
 @Module({
   imports: [

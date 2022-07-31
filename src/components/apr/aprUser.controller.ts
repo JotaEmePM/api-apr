@@ -1,6 +1,12 @@
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common'
-import { ApiTags, ApiBearerAuth } from '@nestjs/swagger'
+import {
+  ApiTags,
+  ApiBearerAuth,
+  ApiBody,
+  ApiCreatedResponse,
+} from '@nestjs/swagger'
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard'
+import { ResponseValueDto } from 'src/dto/response.dto'
 import { APRService } from './apr.service'
 import { CreateAPRUserDto } from './dto/CreateAPRUser.dto'
 
@@ -13,6 +19,11 @@ export class APRUserController {
   constructor(private readonly aprService: APRService) {}
 
   @Post()
+  @ApiBody({ type: CreateAPRUserDto })
+  @ApiCreatedResponse({
+    description: 'Datos de nuevo usuario en APR',
+    type: ResponseValueDto,
+  })
   create(@Body() createAPRUserDto: CreateAPRUserDto) {
     console.log(createAPRUserDto)
     return this.aprService.createAPRUser(createAPRUserDto)

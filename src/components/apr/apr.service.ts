@@ -6,6 +6,7 @@ import { APR } from './schema/apr.schema'
 import { CreateAPRDto } from './dto/createAPR.dto'
 import { APRUser } from './schema/aprUser.schema'
 import { CreateAPRUserDto } from './dto/CreateAPRUser.dto'
+import { ResponseValueDto } from 'src/dto/response.dto'
 
 @Injectable()
 export class APRService {
@@ -18,16 +19,40 @@ export class APRService {
   ) {}
 
   //#region APR
-  async create(createAPRDto: CreateAPRDto) {
-    return await this.aprModel.create(createAPRDto)
+  async create(createAPRDto: CreateAPRDto): Promise<ResponseValueDto> {
+    try {
+      return new ResponseValueDto(false, 'APR_CREATED', {
+        apr: await this.aprModel.create(createAPRDto),
+      })
+    } catch (error) {
+      return new ResponseValueDto(true, 'APR_ERRORCREATION', {
+        error,
+      })
+    }
   }
 
-  async findAll() {
-    return this.aprModel.find().exec()
+  async findAll(): Promise<ResponseValueDto> {
+    try {
+      return new ResponseValueDto(false, 'APR_LISTOK', {
+        aprs: await this.aprModel.find().exec(),
+      })
+    } catch (error) {
+      return new ResponseValueDto(true, 'APR_LISTERROR', {
+        error,
+      })
+    }
   }
 
-  findOne(id: string) {
-    return this.aprModel.find({ _id: id }).exec()
+  async findOne(id: string): Promise<ResponseValueDto> {
+    try {
+      return new ResponseValueDto(false, 'APR_GETOK', {
+        aprs: await this.aprModel.find({ _id: id }).exec(),
+      })
+    } catch (error) {
+      return new ResponseValueDto(true, 'APR_GETERROR', {
+        error,
+      })
+    }
   }
 
   // update(id: string, updateRegionDto: UpdateRegionDto) {
@@ -37,20 +62,62 @@ export class APRService {
   //#endregion
 
   //#region  APRUser
-  async createAPRUser(createAPRUserDto: CreateAPRUserDto) {
-    return await this.apruserModel.create(createAPRUserDto)
+  async createAPRUser(
+    createAPRUserDto: CreateAPRUserDto
+  ): Promise<ResponseValueDto> {
+    try {
+      return new ResponseValueDto(false, 'APRUSER_CREATED', {
+        apr: await this.apruserModel.create(createAPRUserDto),
+      })
+    } catch (error) {
+      return new ResponseValueDto(true, 'APRUSER_ERRORCREATION', {
+        error,
+      })
+    }
   }
 
-  async findAllUser(aprId: string) {
-    return this.apruserModel.find({ subdomainId: aprId })
+  async findAllUser(aprId: string): Promise<ResponseValueDto> {
+    try {
+      return new ResponseValueDto(false, 'APRUSER_LISTOK', {
+        aprs: await this.apruserModel.find({ subdomainId: aprId }),
+      })
+    } catch (error) {
+      return new ResponseValueDto(true, 'APRUSER_LISTERROR', {
+        error,
+      })
+    }
   }
 
-  findOneAPRUser(id: string) {
-    return this.apruserModel.find({ _id: id }).exec()
+  async findOneAPRUser(id: string): Promise<ResponseValueDto> {
+    try {
+      return new ResponseValueDto(false, 'APRUSER_GETOK', {
+        aprs: await this.apruserModel.find({ _id: id }).exec(),
+      })
+    } catch (error) {
+      return new ResponseValueDto(true, 'APRUSER_GETERROR', {
+        error,
+      })
+    }
   }
 
-  findOneAPRUserById(userId: string, aprId: string) {
-    return this.apruserModel.find({ subdomainId: aprId, userId: userId })
+  async findOneAPRUserById(
+    userId: string,
+    aprId: string
+  ): Promise<ResponseValueDto> {
+    try {
+      return new ResponseValueDto(false, 'APRUSER_GETBYIDOK', {
+        aprs: await this.apruserModel.find({
+          subdomainId: aprId,
+          userId: userId,
+        }),
+      })
+    } catch (error) {
+      return new ResponseValueDto(true, 'APRUSER_GETBYIDERROR', {
+        error,
+      })
+    }
+
+    return
   }
   //#endregion
 }

@@ -1,6 +1,12 @@
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common'
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiCreatedResponse,
+  ApiTags,
+} from '@nestjs/swagger'
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard'
+import { ResponseValueDto } from 'src/dto/response.dto'
 import { APRService } from './apr.service'
 import { CreateAPRDto } from './dto/createAPR.dto'
 
@@ -13,8 +19,12 @@ export class APRController {
   constructor(private readonly aprService: APRService) {}
 
   @Post()
+  @ApiBody({ type: CreateAPRDto })
+  @ApiCreatedResponse({
+    description: 'Datos de nueva APR',
+    type: ResponseValueDto,
+  })
   create(@Body() createAPRDto: CreateAPRDto) {
-    console.log(createAPRDto)
     return this.aprService.create(createAPRDto)
   }
 

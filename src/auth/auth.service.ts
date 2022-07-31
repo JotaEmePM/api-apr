@@ -1,4 +1,4 @@
-import { HttpException, Injectable, HttpStatus } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Usuarios } from 'src/components/usuarios/schemas/usuarios.schema'
 import { LoginUserAuthDto } from './dto/login-auth.dto'
@@ -36,7 +36,7 @@ export class AuthService {
 
     if (subdomain === 'admin') {
       if (!findUser.UserType.includes('62d9b6b719458b5009479d12'))
-        throw new HttpException('Usuario no es ADMIN', HttpStatus.NOT_FOUND)
+        return new ResponseValueDto(true, 'AUTH.USERNOADMIN', null)
 
       const passwordIndex = findUser.PasswordHistory.findIndex(
         u => u.Id == findUser.Password
@@ -44,7 +44,7 @@ export class AuthService {
       const { Hash, Salt } = findUser.PasswordHistory[passwordIndex]
 
       if (!(await this.securityService.checkPassword(Salt, Hash, password)))
-        throw new HttpException('Contraseña invalida', HttpStatus.FORBIDDEN)
+        return new ResponseValueDto(true, 'AUTH.PASSWORDINVALID', null)
 
       const payload = {
         id: findUser._id,
@@ -56,8 +56,7 @@ export class AuthService {
         rolName: 'Admin',
       }
       const token = await this.jwtService.signAsync(payload)
-      // TODO: Vistas disponibles
-      return new ResponseValueDto(false, 'Usuario verificado', {
+      return new ResponseValueDto(false, 'AUTH.USERVALID', {
         token,
         payload,
       })
@@ -65,10 +64,10 @@ export class AuthService {
       const findDomain = await this.aprModel.findOne({ subdomain })
 
       if (!findDomain)
-        throw new HttpException('Dominio no encontrado', HttpStatus.NOT_FOUND)
+        return new ResponseValueDto(true, 'AUTH.DOMAINNOTFOUND', null)
 
       if (!findUser)
-        throw new HttpException('Usuario no encontrado', HttpStatus.NOT_FOUND)
+        return new ResponseValueDto(true, 'AUTH.USERNOTFOUND', null)
 
       const findUserAPR = await this.aprUserModel.findOne({
         subdomainId: findDomain._id,
@@ -76,16 +75,10 @@ export class AuthService {
       })
 
       if (findUserAPR)
-        throw new HttpException(
-          'Usuario no pertenece a este APR',
-          HttpStatus.NOT_FOUND
-        )
+        return new ResponseValueDto(true, 'AUTH.USERAPRNOTFOUND', null)
 
       if (!findUserAPR.enabled)
-        throw new HttpException(
-          'Usuario no habilitado para acceder',
-          HttpStatus.NOT_FOUND
-        )
+        return new ResponseValueDto(true, 'AUTH.USERDISABLED', null)
 
       const passwordIndex = findUser.PasswordHistory.findIndex(
         u => u.Id == findUser.Password
@@ -93,11 +86,10 @@ export class AuthService {
       const { Hash, Salt } = findUser.PasswordHistory[passwordIndex]
 
       if (!(await this.securityService.checkPassword(Salt, Hash, password)))
-        throw new HttpException('Contraseña invalida', HttpStatus.FORBIDDEN)
+        return new ResponseValueDto(true, 'AUTH.PASSWORDINVALID', null)
 
       const rol = await this.rolModel.findById(findUserAPR.rolId)
-      if (!rol)
-        throw new HttpException('Usuario rol no valido', HttpStatus.NOT_FOUND)
+      if (!rol) return new ResponseValueDto(true, 'AUTH.USERROLINVALID', null)
 
       const payload = {
         id: findUser._id,
@@ -109,8 +101,7 @@ export class AuthService {
         rolName: rol.Nombre,
       }
       const token = await this.jwtService.signAsync(payload)
-      // TODO: Vistas disponibles
-      return new ResponseValueDto(false, 'Usuario verificado', {
+      return new ResponseValueDto(false, 'AUTH.USERVALID', {
         token,
         payload,
       })
