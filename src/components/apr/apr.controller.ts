@@ -14,7 +14,6 @@ import { CreateAPRDto } from './dto/createAPR.dto'
 @Controller('apr')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
-@ApiBearerAuth()
 export class APRController {
   constructor(private readonly aprService: APRService) {}
 

@@ -5,6 +5,6 @@
 ## TODO
 
 - [ ] Implement HTTPS
-- [ ] Check CORS
+
 
 ---
