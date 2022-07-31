@@ -42,7 +42,6 @@
     "class-validator": "^0.13.2",
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.1",
-    "jwt-decode": "^3.1.2",
     "mongoose": "^6.4.6",
     "nestjs-i18n": "^9.1.5",
     "node-fetch": "^2.6.7",
