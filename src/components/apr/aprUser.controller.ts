@@ -25,7 +25,6 @@ export class APRUserController {
     type: ResponseValueDto,
   })
   create(@Body() createAPRUserDto: CreateAPRUserDto) {
-    console.log(createAPRUserDto)
     return this.aprService.createAPRUser(createAPRUserDto)
   }
 

@@ -91,7 +91,6 @@ export class UsuariosController {
 
         const { user, userId } = await this.usuarioService.create(createUserDto)
         const usuarioData = new ViewUsuarioDto()
-        console.log(userId)
 
         usuarioData.UserId = userId
 

@@ -78,9 +78,7 @@ export class EmailService {
     params.append('body', template)
     this.httpService
       .post(process.env.EMAILCONFIRMATION_APIURL, params, { headers })
-      .subscribe(data => {
-        console.log(data)
-      })
+      .subscribe(data => {})
     // .catch(error => {
     //   throw new HttpException(
     //     `[BAD_EMAIL_REQUEST][${error}]`,
@@ -101,7 +99,7 @@ export class EmailService {
       //     return await buff.text()
       //   // status "Not Found"
       //   case 404:
-      //     console.log('Not Found')
+
       //     return 'NOTFOUND'
       // }
     } catch (error) {

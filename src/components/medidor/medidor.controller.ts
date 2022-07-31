@@ -34,7 +34,6 @@ export class MedidorController {
 
   @Get(':domain')
   findAllByAPR(@Param('domain') req: string) {
-    console.log('req:' + req)
     return this.medidorService.findAllBySubdomain(req)
   }
 

@@ -72,11 +72,9 @@ export class MedidorService {
 
   async findAllBySubdomain(domain: string): Promise<ResponseValueDto> {
     try {
-      console.log(domain)
       const medidores = await this.medidorModel
         .find({ subdomain: domain })
         .exec()
-      console.log(medidores)
       return new ResponseValueDto(false, 'APR_LISTOK', {
         medidores,
       })
