@@ -88,14 +88,28 @@ export class MedidorService {
     }
   }
 
-  async findAllBySubdomain(domain: string): Promise<ResponseValueDto> {
+  async findAllBySubdomain(domain: string, documentsToSkip = 0, limitOfDocuments?: number): Promise<ResponseValueDto> {
     try {
-      const medidores = await this.medidorModel
-        .find({ subdomain: domain })
-        .exec()
-      return new ResponseValueDto(false, 'APR_LISTOK', {
-        medidores,
-      })
+      if (limitOfDocuments) {
+        const query = await this.aprModel
+          .find({ subdomain: domain })
+          .sort({ _id: 1 })
+          .skip(documentsToSkip)
+          .limit(limitOfDocuments)
+
+        return new ResponseValueDto(false, 'MEDIDOR_LISTOK', {
+          medidores: query,
+        })
+      } else {
+        const query = await this.aprModel
+          .find({ subdomain: domain })
+          .sort({ _id: 1 })
+          .skip(documentsToSkip)
+
+        return new ResponseValueDto(false, 'MEDIDOR_LISTOK', {
+          medidores: query,
+        })
+      }
     } catch (error) {
       return new ResponseValueDto(true, 'APR_LISTERROR', {
         error,

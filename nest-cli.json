@@ -3,11 +3,12 @@
   "collection": "@nestjs/schematics",
   "sourceRoot": "src",
   "compilerOptions": {
+    "plugins": ["@nestjs/swagger"],
     "assets": [
-      { 
-        "include": "i18n/**/*", 
-        "watchAssets": true, 
-        "outDir": "dist/apps/api"  
+      {
+        "include": "i18n/**/*",
+        "watchAssets": true,
+        "outDir": "dist/apps/api"
       }
     ]
   }

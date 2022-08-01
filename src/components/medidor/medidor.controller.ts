@@ -34,8 +34,8 @@ export class MedidorController {
   }
 
   @Get(':domain')
-  findAllByAPR(@Param('domain') req: string) {
-    return this.medidorService.findAllBySubdomain(req)
+  findAllByAPR(@Param('domain') req: string, @Query() { skip, limit}: PaginationParams) {
+    return this.medidorService.findAllBySubdomain(req, skip, limit)
   }
 
   @Get(':id')
