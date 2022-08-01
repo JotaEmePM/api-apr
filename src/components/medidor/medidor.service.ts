@@ -14,7 +14,7 @@ export class MedidorService {
 
     @InjectModel(APR.name)
     private readonly aprModel: Model<APR>
-  ) {}
+  ) { }
 
   async create(createMedidorDto: NewMedidorDto): Promise<ResponseValueDto> {
     try {
@@ -46,11 +46,29 @@ export class MedidorService {
     }
   }
 
-  async findAll(): Promise<ResponseValueDto> {
+  async findAll(documentsToSkip = 0, limitOfDocuments?: number): Promise<ResponseValueDto> {
     try {
-      return new ResponseValueDto(false, 'MEDIDOR_LISTOK', {
-        medidores: await this.medidorModel.find().exec(),
-      })
+      if (limitOfDocuments) {
+        const query = await this.aprModel
+          .find()
+          .sort({ _id: 1 })
+          .skip(documentsToSkip)
+          .limit(limitOfDocuments)
+
+        return new ResponseValueDto(false, 'MEDIDOR_LISTOK', {
+          medidores: query,
+        })
+      } else {
+        const query = await this.aprModel
+          .find()
+          .sort({ _id: 1 })
+          .skip(documentsToSkip)
+
+        return new ResponseValueDto(false, 'MEDIDOR_LISTOK', {
+          medidores: query,
+        })
+      }
+
     } catch (error) {
       return new ResponseValueDto(true, 'MEDIDOR_LISTERROR', {
         error,

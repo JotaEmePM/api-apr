@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common'
+import { Body, Controller, Get, Param, Post, Query, UseGuards } from '@nestjs/common'
 import {
   ApiBearerAuth,
   ApiBody,
@@ -9,6 +9,7 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard'
 import { MedidorService } from './medidor.service'
 import { NewMedidorDto } from './dto/newMedidor.dto'
 import { ResponseValueDto } from '../../dto/response.dto'
+import { PaginationParams } from '../core/pagination-params'
 
 @ApiTags('medidor')
 @Controller('medidor')
@@ -28,8 +29,8 @@ export class MedidorController {
   }
 
   @Get()
-  findAll() {
-    return this.medidorService.findAll()
+  findAll(@Query() { skip, limit}: PaginationParams) {
+    return this.medidorService.findAll(skip, limit)
   }
 
   @Get(':domain')
